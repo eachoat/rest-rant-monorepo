@@ -7,6 +7,27 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
+__
+const app = express();
+const cookieSession = require('cookie-session')
+
+// Express Settings
+__
+app.use(cookieSession({
+    name: 'session',
+    keys: [ process.env.SESSION_SECRET ],
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+
+
 
 let sequelize;
 if (config.use_env_variable) {
