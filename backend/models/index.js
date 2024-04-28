@@ -7,8 +7,8 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
-__
 const app = express();
+const defineCurrentUser = require('./middleware/defineCurrentUser')
 const cookieSession = require('cookie-session')
 
 // Express Settings
@@ -25,6 +25,7 @@ app.use(cors({
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(defineCurrentUser)
 
 
 
